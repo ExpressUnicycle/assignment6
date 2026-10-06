@@ -96,11 +96,13 @@ function renderBooks(books) {
   });
 }
 
+let currentSortMethod = null;
+
 function filterBooks() {
   const category = categorySelect.value;
 
   if (category === "all") {
-    return [...books];
+    return [...books].sort(sortMethods[currentSortMethod]);
   }
 
   if (
@@ -108,15 +110,15 @@ function filterBooks() {
     category === "Fantasy" ||
     category === "Science Fiction"
   ) {
-    return books.filter((book) => book.genre === category);
+    return books.filter((book) => book.genre === category).sort(sortMethods[currentSortMethod]);
   }
 
   if (category === "under-450") {
-    return books.filter((book) => book.pages < 450);
+    return books.filter((book) => book.pages < 450).sort(sortMethods[currentSortMethod]);;
   }
 
   if (category === "after-2000") {
-    return books.filter((book) => book.year > 2000);
+    return books.filter((book) => book.year > 2000).sort(sortMethods[currentSortMethod]);
   }
 
   return [...books];
@@ -124,17 +126,19 @@ function filterBooks() {
 
 sortTitle.addEventListener("click", function (e) {
   const filteredBooks = filterBooks().sort(sortMethods["sortTitle"]);
+  currentSortMethod = "sortTitle";
   renderBooks(filteredBooks);
-  console.log(books);
 });
 
 sortPages.addEventListener("click", function (e) {
   const filteredBooks = filterBooks().sort(sortMethods["sortPages"]);
+  currentSortMethod = "sortPages";
   renderBooks(filteredBooks);
 });
 
 sortYear.addEventListener("click", function (e) {
   const filteredBooks = filterBooks().sort(sortMethods["sortYear"]);
+  currentSortMethod = "sortYear";
   renderBooks(filteredBooks);
 });
 
